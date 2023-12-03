@@ -1,57 +1,63 @@
 import request from '@/utils/request'
 
-export function fetchList(params) {
+export const get = function (url, params, access = true, refreshAccess = false) {
     return request({
+        url,
+        method: 'get',
+        params:params,
+        access,
+        refreshAccess
+    })
+}
+export const post = function (url, data, access = true, refreshAccess = false) {
+    return request({
+        url,
+        method: 'post',
+        data,
+        access,
+        refreshAccess
+    })
+}
+export function fetchList (params) {
+    console.log("fetch list")
+    return get({
         url: '/post/list',
-        method: 'get',
-        params: params
+        params: params,
     })
 }
 
-export function fetchFocus() {
-    return request({
+export function fetchFocus () {
+    return get({
         url: '/focus/list',
-        method: 'get',
-        params: {}
     })
 }
 
-export function fetchCategory() {
-    return request({
+export function fetchCategory () {
+    return get({
         url: '/category',
-        method: 'get',
-        params: {}
     })
 }
 
-export function fetchFriend() {
-    return request({
+export function fetchFriend () {
+    return get({
         url: '/friend',
-        method: 'get',
-        params: {}
     })
 }
 
-export function fetchSocial() {
-    return request({
+export function fetchSocial () {
+    return get({
         url: '/social',
-        method: 'get',
-        params: {}
     });
 }
 
-export function fetchSiteInfo() {
-    return request({
+export function fetchSiteInfo () {
+    return get({
         url: '/site',
-        method: 'get',
-        params: {}
     })
 }
 
-export function fetchComment() {
-    return request({
+export function fetchComment () {
+    return get({
         url: '/comment',
-        method: 'get',
-        params: {}
     })
 }

@@ -1,9 +1,12 @@
 import axios from 'axios'
-import store from '@/store'
+import { getRefreshToken, getToken } from './userInfo'
+import { Message } from 'element-ui'
 
+const TokenKey = "Authorization"
+const RefreshTokenKey = "Authorization-refresh"
 // create an axios instance
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: '/api',
     timeout: 5000 // request timeout
 })
 
@@ -11,10 +14,22 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         // do something before request is sent
-
-        // if (store.getters.token) {
-        //     config.headers['X-Token'] = getToken()
-        // }
+        console.log("config:")
+        console.log(config)
+        // check access
+        if (config.access) {
+            if (getToken() != null && getToken() != "") {
+                config.headers[TokenKey] = getToken()
+            } else {
+                // redirect 未登录
+            }
+        }
+        // check refreshAccess only for refreshToken
+        if (config.refreshAccess) {
+            if (getRefreshToken() != null && getRefreshToken() != "") {
+                config.headers[RefreshTokenKey] = getRefreshToken()
+            }
+        }
         return config
     },
     error => {
@@ -41,14 +56,18 @@ service.interceptors.response.use(
         // store.commit('SET_LOADING',false);
 
         // if the custom code is not 20000, it is judged as an error.
-        if (res.code !== 20000) {
+        if (res.code !== 200) {
+            // alert
+            Message.error(res.message)
             return Promise.reject(new Error(res.message || 'Error'))
         } else {
             return res
         }
     },
     error => {
+        // alert
         console.log('err' + error) // for debug
+        Message.error(res.message)
         return Promise.reject(error)
     }
 )

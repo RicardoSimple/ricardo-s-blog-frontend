@@ -48,6 +48,12 @@ const routes = [
         meta: { title: '友链' }
     },
     {
+        path: '/addArticle',
+        name: 'addArticle',
+        component: () => import('../views/AddArticle.vue'),
+        meta: { title: '新文章' }
+    },
+    {
         path: '/article/:id',
         name: 'article',
         component: () => import('../views/Articles.vue'),

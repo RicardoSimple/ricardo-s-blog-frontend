@@ -32,6 +32,7 @@
             @click="submitForm('loginReq')"
           >提交</el-button>
           <el-button @click="resetForm('loginReq')">重置</el-button>
+          <router-link to="/register">注册</router-link>
         </el-form-item>
       </el-form>
     </el-card>

@@ -8,3 +8,29 @@ import { get, post } from '..';
 export async function addArticle (article) {
   return await post('/article/add', article)
 }
+
+/**
+ * 获取全部article
+ * @returns 
+ */
+export async function getArticles () {
+  return await get('/article/all')
+}
+
+/**
+ * 按id获取article
+ * @param {string} id 
+ * @returns 
+ */
+export async function getArticleById (id) {
+  return await get('/article/get?id=' + id)
+}
+
+/**
+ * 获取该用户的articles
+ * @param {string} userId 
+ * @returns 
+ */
+export async function getArticleUnderUser (userId) {
+  return await get('/article/user?userId=' + userId)
+}

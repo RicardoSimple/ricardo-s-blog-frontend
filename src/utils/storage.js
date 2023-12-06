@@ -7,6 +7,10 @@ export const load = (key, _default) => {
   return res ? JSON.parse(res) : _default
 }
 
+export const remove = (key) => {
+  localStorage.removeItem(key)
+}
+
 export const clearAll = () => {
   localStorage.clear()
 }

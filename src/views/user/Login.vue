@@ -24,6 +24,7 @@
             type="password"
             v-model="loginReq.pwd"
             autocomplete="off"
+            show-password
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -41,7 +42,7 @@
 
 <script>
 import { login } from '../../api/userApi/userApi'
-import { getRefreshToken, getToken, getUserInfo, setRefreshToken, setToken, setUserInfo } from '../../utils/userInfo';
+import { setRefreshToken, setToken, setUserInfo } from '../../utils/userInfo';
 
 export default {
   data () {
@@ -81,11 +82,7 @@ export default {
         setToken(data.token)
         setUserInfo(data.currentUser)
         setRefreshToken(data.refreshToken)
-        console.log("test")
-        //test
-        console.log(getToken())
-        console.log(getRefreshToken())
-        console.log(getUserInfo())
+        window.location.href = '/'
       })
     }
   }

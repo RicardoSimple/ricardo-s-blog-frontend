@@ -1,15 +1,115 @@
 <template>
   <div style="margin-top: 90px;">
-    <div style="height: 100px;"> 新增文章</div>
-    <ArticleEditor></ArticleEditor>
+    <ArticleEditor
+      :getHtml="getHtml"
+      :getTitle="getTitle"
+    ></ArticleEditor>
+    <ArticleMenu :getSelectedTags="getSelectedTags"></ArticleMenu>
+    <el-card
+      class="sticky-footer"
+      :style="{height: minied? '30px':'90px'}"
+    >
+      <el-row>
+        <el-col
+          :span="12"
+          :offset="12"
+        >
+          <el-button
+            type="text"
+            icon="el-icon-arrow-down"
+            style="position: relative;top: -20px;"
+            @click="minied=true"
+            v-if="!minied"
+          ></el-button>
+          <el-button
+            type="text"
+            icon="el-icon-arrow-up"
+            style="position: relative;top: -20px;"
+            @click="minied=false"
+            v-if="minied"
+          ></el-button>
+        </el-col>
+      </el-row>
+      <el-row style="position: relative; top: -25px;">
+        <el-col
+          :span="3"
+          :offset="3"
+        >
+          <span>全文字数:</span>
+        </el-col>
+        <el-col
+          :span="10"
+          :offset="8"
+        >
+          <el-button
+            type="info"
+            round
+            @click="saveArticalSubmit"
+          >保存内容</el-button>
+          <el-button
+            type="warning"
+            round
+            @click="publishArticleSubmit"
+          >现在发布</el-button>
+        </el-col>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
 <script>
+import { addArticle } from '../api/articleApi/articleApi';
 import ArticleEditor from '../components/article/article-editor.vue';
+import ArticleMenu from '../components/article/article-menu.vue';
+import { getUserInfo } from '../utils/userInfo';
 
 export default {
-  components: { ArticleEditor }
+  data () {
+    return {
+      html: "",
+      title: "",
+      minied: false,
+      articleReq: {
+        userId: getUserInfo().id,
+        title: "",
+        content: "",
+        viewCount: 0,
+        tags: [],
+        isPublished: false
+      },
+    }
+  },
+  components: { ArticleEditor, ArticleMenu },
+  methods: {
+    getHtml (text) {
+      this.articleReq.content = text
+    },
+    getTitle (title) {
+      this.articleReq.title = title
+    },
+    getSelectedTags (tags) {
+      console.log(tags)
+      this.articleReq.tags = tags
+    },
+    saveArticalSubmit () {
+      console.log(this.articleReq)
+      addArticle(this.articleReq)
+    },
+    publishArticleSubmit () {
+      this.articleReq.isPublished = true
+      console.log(this.articleReq)
+      addArticle(this.articleReq)
+    }
+  }
 }
 </script>
 
+<style>
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* 可以根据实际情况设置其他样式，例如背景色、阴影等 */
+}
+</style>

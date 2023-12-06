@@ -42,6 +42,11 @@ const routes = [
         meta: { title: '注册' }
     },
     {
+        path: '/main',
+        name: 'main',
+        component: () => import('../views/user/Main.vue')
+    },
+    {
         path: '/friend',
         name: 'friend',
         component: () => import('../views/Friend.vue'),

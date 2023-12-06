@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getRefreshToken, getToken } from './userInfo'
 import { Message } from 'element-ui'
+import { clearAll } from './storage'
 
 const TokenKey = "Authorization"
 const RefreshTokenKey = "Authorization-refresh"
@@ -60,7 +61,12 @@ service.interceptors.response.use(
             // alert
             Message.error(res.message)
             return Promise.reject(new Error(res.message || 'Error'))
-        } else {
+        } else if (res.code == 312) {
+            Message.error(res.message)
+            clearAll();
+            return Promise.reject(new Error(res.message || 'Error'))
+        }
+        else {
             return res
         }
     },

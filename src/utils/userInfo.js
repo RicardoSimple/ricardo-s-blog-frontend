@@ -1,4 +1,4 @@
-import { store, load } from './storage'
+import { store, load, remove } from './storage'
 
 const loadUserInfoKey = "load-user-info"
 const loadTokenKey = "load-token-info"
@@ -11,12 +11,16 @@ export const getUserInfo = () => {
 export const setUserInfo = (userInfo) => {
   store(loadUserInfoKey, userInfo)
 }
+
 export const getToken = () => {
   return load(loadTokenKey, "")
 }
 
 export const setToken = (token) => {
   store(loadTokenKey, token)
+}
+export const removeToken = () => {
+  remove(loadTokenKey)
 }
 export const getRefreshToken = () => {
   return load(loadRefreshTokenKey, "")

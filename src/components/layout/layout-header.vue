@@ -42,14 +42,14 @@
       </div>
       <div class="menu-item"><router-link to="/friend">友链</router-link></div>
       <div class="menu-item"><router-link to="/about">关于</router-link></div>
-      <div class="menu-item"><router-link
-          v-if="userInfo==null"
-          to="/login"
-        >登录</router-link></div>
-      <div class="menu-item"><router-link
-          v-if="userInfo!=null"
-          to="/login"
-        >{{userInfo.nickName}}</router-link></div>
+      <div
+        class="menu-item"
+        v-if="userInfo==null"
+      ><router-link to="/login">登录</router-link></div>
+      <div
+        class="menu-item"
+        v-if="userInfo!=null"
+      ><router-link to="/main">{{userInfo.nickName}}</router-link></div>
     </div>
   </div>
 </template>
@@ -57,7 +57,9 @@
 <script>
 import HeaderSearch from '@/components/header-search'
 import { fetchCategory } from '../../api'
+import { check } from '../../api/userApi/userApi'
 import { getUserInfo } from '../../utils/userInfo'
+import { clearAll } from '../../utils/storage'
 export default {
   name: "layout-header",
   components: { HeaderSearch },
@@ -75,7 +77,8 @@ export default {
     window.addEventListener('scroll', this.watchScroll)
     this.fetchCategory()
   },
-  created () {
+  async created () {
+    await check()
     console.log("判断用户信息是否存在,控制展示用户信息还是展示头像")
     this.userInfo = getUserInfo()
     console.log(this.userInfo)

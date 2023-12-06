@@ -1,55 +1,52 @@
 <template>
   <div class="editor-container">
-    <!-- <el-row gutter="20">
-      <el-col :span="12">
-        <div>
-          <button @click="printEditorHtml">print html</button>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <div>
-          <button @click="getEditorText">print text</button>
-        </div>
-      </el-col>
-    </el-row> -->
     <el-row>
+      <!-- <el-col :span="6">
+        <div style=" background-color: #f1f1f1;">
+          list
+          <ul
+            @mousedown="scollToTitle"
+            id="header-container"
+          ></ul>
+        </div>
+      </el-col> -->
       <el-col
-        :span="12"
-        :offset="6"
+        :span="18"
+        :offset="3"
       >
-        <div style="border: 1px solid #ccc; margin-top: 10px">
+        <el-card>
           <!-- 工具栏 -->
           <Toolbar
+            class="article-tool"
             style="border-bottom: 1px solid #ccc"
             :editor="editor"
             :defaultConfig="toolbarConfig"
           />
           <!-- 编辑器 -->
+          <div class="title-container">
+            <input
+              style="height: 70px;line-height: 70px;font-size: 35px;font-weight: bold;width: 93%;padding: 3px;border: none;outline: none;"
+              placeholder="请输入标题..."
+              :maxlength="maxTitleLength"
+              @change="sendTitle"
+              v-model="title"
+            />
+            <span>{{titleLength}}/{{ maxTitleLength }}</span>
+            <div
+              style="width: 100%;height: 1px; border-bottom: 1px solid #ccc;">
+            </div>
+          </div>
           <Editor
-            style="min-height: 80vh; overflow-y: hidden"
+            class="article-editor"
+            style="height: 80vh; overflow-y: hidden"
             :defaultConfig="editorConfig"
             v-model="html"
             @onChange="onChange"
             @onCreated="onCreated"
           />
-        </div>
+        </el-card>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col
-        :span="12"
-        :offset="6"
-      >
-        <div style="margin-top: 10px">
-          <textarea
-            v-model="html"
-            readonly
-            style="width: 100%; height: 200px; outline: none"
-          ></textarea>
-        </div>
-      </el-col>
-    </el-row>
-
   </div>
 </template>
 
@@ -57,6 +54,7 @@
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { DomEditor } from '@wangeditor/editor'
 import { getToken } from '../../utils/userInfo';
+import { Message } from 'element-ui'
 export default {
   name: "article-editor",
   components: { Editor, Toolbar },
@@ -64,13 +62,16 @@ export default {
     return {
       editor: null,
       html: "<p>hello&nbsp;world</p>",
+      title: "",
+      titleLength: 0,
+      maxTitleLength: 40,
       toolbarConfig: {
         // toolbarKeys: [ /* 显示哪些菜单，如何排序、分组 */ ],
-        // excludeKeys: [ /* 隐藏哪些菜单 */ ],
+        excludeKeys: ['fullScreen'],
       },
       editorConfig: {
         placeholder: "请输入内容...",
-        scroll: true,
+        scroll: false,
         // autoFocus: false,
 
         // 所有的菜单配置，都要在 MENU_CONF 属性下
@@ -86,12 +87,24 @@ export default {
       },
     };
   },
+  props: ['getHtml', 'getTitle'],
+  watch: {
+    title (val) {
+      this.titleLength = val.length
+      this.title = val
+      if (this.titleLength > this.maxTitleLength) {
+        Message.warning(`最多允许${this.maxTitleLength}个字`)
+        return false
+      }
+    },
+  },
   methods: {
     onCreated (editor) {
       this.editor = Object.seal(editor); // 【注意】一定要用 Object.seal() 否则会报错
       console.log(this.editor)
     },
     onChange (editor) {
+      this.sendHtml()
       console.log("onChange", editor.getHtml()); // onChange 时获取编辑器最新内容
     },
     getEditorText () {
@@ -106,6 +119,12 @@ export default {
 
       console.log(editor.getHtml()); // 执行 editor API
     },
+    sendHtml () {
+      this.getHtml(this.html)
+    },
+    sendTitle () {
+      this.getTitle(this.title)
+    }
   },
   mounted () {
     //模拟 ajax 请求，异步渲染编辑器
@@ -125,4 +144,66 @@ export default {
 };
 </script>
 
-<style src="@wangeditor/editor/dist/css/style.css"></style>
+<style>
+/* 默认的标题样式 */
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+
+h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+
+h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+
+h4 {
+  display: block;
+  margin-block-start: 1.33em;
+  margin-block-end: 1.33em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+
+h5 {
+  display: block;
+  font-size: 0.83em;
+  margin-block-start: 1.67em;
+  margin-block-end: 1.67em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+
+h6 {
+  display: block;
+  font-size: 0.67em;
+  margin-block-start: 2.33em;
+  margin-block-end: 2.33em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+</style>
+<style src="@wangeditor/editor/dist/css/style.css">
+</style>

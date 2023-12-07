@@ -4,18 +4,19 @@ export const get = function (url, params, access = true, refreshAccess = false) 
     return request({
         url,
         method: 'get',
-        params:params,
+        params: params,
         access,
         refreshAccess
     })
 }
-export const post = function (url, data, access = true, refreshAccess = false) {
+export const post = function (url, data, access = true, refreshAccess = false, isForm = false) {
     return request({
         url,
         method: 'post',
         data,
         access,
-        refreshAccess
+        refreshAccess,
+        isForm
     })
 }
 export function fetchList (params) {

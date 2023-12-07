@@ -71,7 +71,7 @@
     .la-pacman {
         display: block;
         font-size: 0;
-        color: #d81e06;
+        color: #9a6c65;
     }
 
     .la-pacman.la-dark {

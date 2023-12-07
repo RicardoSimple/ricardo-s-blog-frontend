@@ -61,7 +61,7 @@ export default {
   data () {
     return {
       editor: null,
-      html: "<p>hello&nbsp;world</p>",
+      html: "<h1></h1>",
       title: "",
       titleLength: 0,
       maxTitleLength: 40,
@@ -126,16 +126,16 @@ export default {
       this.getTitle(this.title)
     }
   },
-  mounted () {
-    //模拟 ajax 请求，异步渲染编辑器
-    setTimeout(() => {
-      this.html = "<p>Ajax 异步设置内容 HTML</p>";
-      const toolbar = DomEditor.getToolbar(this.editor)
+  // mounted () {
+  //   //模拟 ajax 请求，异步渲染编辑器
+  //   setTimeout(() => {
+  //     this.html = "<p>Ajax 异步设置内容 HTML</p>";
+  //     const toolbar = DomEditor.getToolbar(this.editor)
 
-      const curToolbarConfig = toolbar.getConfig()
-      console.log(curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
-    }, 1500);
-  },
+  //     const curToolbarConfig = toolbar.getConfig()
+  //     console.log(curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
+  //   }, 1500);
+  // },
   beforeDestroy () {
     const editor = this.editor;
     if (editor == null) return;

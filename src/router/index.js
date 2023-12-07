@@ -44,7 +44,14 @@ const routes = [
     {
         path: '/main',
         name: 'main',
-        component: () => import('../views/user/Main.vue')
+        component: () => import('../views/user/Main.vue'),
+        meta: { title: '个人中心' }
+    },
+    {
+        path: '/articles',
+        name: 'articles',
+        component: () => import('../views/user/MyArticle.vue'),
+        meta: { title: '文章管理' }
     },
     {
         path: '/friend',

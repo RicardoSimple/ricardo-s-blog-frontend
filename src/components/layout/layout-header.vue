@@ -7,10 +7,11 @@
     <div class="site-logo">
       <router-link to="/">
         <img
-          src="@/assets/site-logo.svg"
+          src="@/assets/LO.png"
+          style="background-repeat: no-repeat; background-position: center;"
           alt=""
         >
-        <p class="site-name">Gblog</p>
+        <!-- <p class="site-name">Gblog</p> -->
       </router-link>
     </div>
     <div
@@ -49,7 +50,23 @@
       <div
         class="menu-item"
         v-if="userInfo!=null"
-      ><router-link to="/main">{{userInfo.nickName}}</router-link></div>
+      ><router-link to="/main">
+          <el-popover
+            placement="top"
+            visible-arrow="false"
+            width="200"
+            trigger="hover"
+          >
+          <UserMenu></UserMenu>
+            <el-avatar
+              :size="50"
+              :src="userInfo.avatar"
+              @error="errorHandler"
+              slot="reference"
+            >
+              {{ userInfo.nickName }}
+            </el-avatar>
+          </el-popover></router-link></div>
     </div>
   </div>
 </template>
@@ -59,10 +76,10 @@ import HeaderSearch from '@/components/header-search'
 import { fetchCategory } from '../../api'
 import { check } from '../../api/userApi/userApi'
 import { getUserInfo } from '../../utils/userInfo'
-import { clearAll } from '../../utils/storage'
+import UserMenu from '../user/user-menu.vue'
 export default {
   name: "layout-header",
-  components: { HeaderSearch },
+  components: { HeaderSearch, UserMenu },
   data () {
     return {
       lastScrollTop: 0,
@@ -106,6 +123,9 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    errorHandler () {
+      return true;
     }
   }
 }
@@ -140,8 +160,6 @@ export default {
   text-align: center;
 
   img {
-    width: 60px;
-    height: 60px;
   }
 
   p.site-name {

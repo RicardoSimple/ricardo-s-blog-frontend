@@ -31,6 +31,9 @@ service.interceptors.request.use(
                 config.headers[RefreshTokenKey] = getRefreshToken()
             }
         }
+        if (config.isForm) {
+            config.headers['Content-Type'] = 'multipart/form-data'
+        }
         return config
     },
     error => {

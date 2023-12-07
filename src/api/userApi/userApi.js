@@ -6,7 +6,7 @@ import { get, post } from '..';
  * @returns 
  */
 export async function register (data) {
-  return await post('/user/register', data, false)
+  return await post('/user/register', data, false, false, true)
 }
 
 /**

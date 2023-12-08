@@ -15,8 +15,6 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         // do something before request is sent
-        console.log("config:")
-        console.log(config)
         // check access
         if (config.access) {
             if (getToken() != null && getToken() != "") {

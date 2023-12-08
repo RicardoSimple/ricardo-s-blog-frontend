@@ -13,7 +13,8 @@
           >[置顶] </span>{{post.title}}</router-link>
       </h1>
       <div class="p-time">
-        <i class="iconfont iconmeditor-time"></i> {{post.pubTime | parseTime}}<i
+        <i class="iconfont iconmeditor-time"></i>
+        {{format(post.gmtModified)}}<i
           v-if="post.isHot"
           class="iconfont iconfire"
           style="margin-left: 5px;color: #ff6d6d;"
@@ -36,7 +37,7 @@
             </span>
           </div>
           <div class="views">
-            <span><i class="iconfont iconeyes"></i>{{post.viewsCount}} 热度</span>
+            <span><i class="iconfont iconeyes"></i>{{post.viewCount}} 热度</span>
           </div>
         </div>
       </footer>
@@ -46,13 +47,21 @@
 </template>
 
 <script>
+import { formatTime } from '../utils/index'
 
 export default {
+  data(){
+    return{
+      format:formatTime
+    }
+  },
   name: "post",
   props: {
     post: {
       type: Object
     }
+  },
+  methods: {
   }
 }
 </script>

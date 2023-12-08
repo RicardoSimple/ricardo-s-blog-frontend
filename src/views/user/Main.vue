@@ -28,6 +28,7 @@
             :key="item.id"
           ></post>
         </template>
+        <div v-if="postList.length<=0">他还没有发过文章</div>
       </main>
 
       <!--加载更多-->
@@ -52,6 +53,7 @@ import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
 import { fetchFocus, fetchList } from '../../api'
+import { getArticleUnderUser } from '../../api/articleApi/articleApi'
 import { getUserInfo } from '../../utils/userInfo'
 
 export default {
@@ -63,7 +65,7 @@ export default {
       postList: [],
       currPage: 1,
       hasNextPage: false,
-      userInfo: ""
+      userInfo: "",
     }
   },
   components: {
@@ -111,14 +113,18 @@ export default {
         this.currPage = res.data.page
         this.hasNextPage = res.data.hasNextPage
       })
-    }
+    },
   },
   mounted () {
     this.fetchFocus();
-    this.fetchList();
+    // this.fetchList();
   },
   created () {
     this.userInfo = getUserInfo()
+    getArticleUnderUser(this.userInfo.id).then(res => {
+      console.log(res.data)
+      this.postList = res.data
+    })
   }
 }
 </script>

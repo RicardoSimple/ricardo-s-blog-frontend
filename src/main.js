@@ -14,11 +14,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
-/** markdown */
-import { Boot } from '@wangeditor/editor'
-import markdownModule from '@wangeditor/plugin-md'
-
-Boot.registerModule(markdownModule)
 
 Vue.directive('highlight', function (el) {
   let blocks = el.querySelectorAll('pre code');

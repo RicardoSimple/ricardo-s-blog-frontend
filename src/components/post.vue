@@ -3,7 +3,17 @@
     <div class="post-entry">
       <div class="feature">
         <router-link :to="`/article/${post.id}`">
-          <img :src="post.banner" />
+          <el-image
+            class="img"
+            :src="post.banner"
+          >
+            <div
+              slot="error"
+              class="slot-error"
+            >
+              {{ post.title }}
+            </div>
+          </el-image>
         </router-link>
       </div>
       <h1 class="entry-title">
@@ -50,9 +60,9 @@
 import { formatTime } from '../utils/index'
 
 export default {
-  data(){
-    return{
-      format:formatTime
+  data () {
+    return {
+      format: formatTime
     }
   },
   name: "post",
@@ -71,13 +81,15 @@ export default {
   margin: 0 0 4% 0;
   position: relative;
 }
-
+.slot-error{
+  line-height: 100px;
+}
 .post-entry {
   .feature {
     position: absolute;
     margin-top: 10px;
 
-    img {
+    .img {
       width: 100px;
       height: 100px;
       object-fit: cover;

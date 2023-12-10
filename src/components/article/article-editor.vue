@@ -55,6 +55,11 @@ import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { DomEditor } from '@wangeditor/editor'
 import { getToken } from '../../utils/userInfo';
 import { Message } from 'element-ui'
+/** markdown */
+import { Boot } from '@wangeditor/editor'
+import markdownModule from '@wangeditor/plugin-md'
+
+Boot.registerModule(markdownModule)
 export default {
   name: "article-editor",
   components: { Editor, Toolbar },

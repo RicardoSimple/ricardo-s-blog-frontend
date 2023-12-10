@@ -68,6 +68,23 @@
       </el-col>
     </el-row>
     <el-row>
+      <el-col
+        :span="14"
+        :offset="5"
+      >
+        <el-button
+          style="text-align: center;
+          color: rgb(151, 82, 59);
+          font-size: 16px;"
+          class="user-button"
+          type="text"
+          size="medium"
+          icon="el-icon-edit"
+          @click="changeSettingEvent"
+        >更改资料</el-button>
+      </el-col>
+    </el-row>
+    <el-row>
       <el-col :span="24">
         <div
           style="width: 100%; height: 1px; border-bottom: 1px solid rgb(211, 177, 25); margin: 3px 0;"
@@ -131,6 +148,9 @@ export default {
     },
     addArticleEvent () {
       window.location.href = '/addArticle'
+    },
+    changeSettingEvent () {
+      window.location.href = '/setting'
     },
     quitEvent () {
       clearAll()

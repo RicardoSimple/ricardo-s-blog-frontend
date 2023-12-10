@@ -54,6 +54,12 @@ const routes = [
         meta: { title: '文章管理' }
     },
     {
+        path: '/setting',
+        name: 'setting',
+        component: () => import('../views/user/Setting.vue'),
+        meta: { title: '更改资料' }
+    },
+    {
         path: '/friend',
         name: 'friend',
         component: () => import('../views/Friend.vue'),

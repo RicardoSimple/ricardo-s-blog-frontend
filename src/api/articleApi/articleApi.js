@@ -34,3 +34,11 @@ export async function getArticleById (id) {
 export async function getArticleUnderUser (userId) {
   return await get('/article/user?userId=' + userId)
 }
+
+/**
+ * 获取热门文章
+ * @returns 
+ */
+export async function getHotArticle () {
+  return await get('/article/hot')
+}

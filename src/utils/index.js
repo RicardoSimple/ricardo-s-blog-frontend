@@ -76,6 +76,10 @@ export function formatTime (time) {
     return Math.ceil(diff / 3600) + '小时前'
   } else if (diff < 3600 * 24 * 2) {
     return '1天前'
+  } else if (diff > 3600 * 24 ** 365) {
+    return `${year}年${month}月${day}日`
+  } else {
+    return `${month}月${day}日`
   }
 }
 

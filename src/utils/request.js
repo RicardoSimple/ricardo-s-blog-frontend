@@ -58,16 +58,16 @@ service.interceptors.response.use(
         // store.commit('SET_LOADING',false);
 
         // if the custom code is not 20000, it is judged as an error.
-        if (res.code !== 200) {
-            // alert
-            Message.error(res.message)
-            return Promise.reject(new Error(res.message || 'Error'))
-        } else if (res.code == 312) {
+        if (res.code == 312) {
             Message.error(res.message)
             clearAll();
             return Promise.reject(new Error(res.message || 'Error'))
         }
-        else {
+        if (res.code !== 200) {
+            // alert
+            Message.error(res.message)
+            return Promise.reject(new Error(res.message || 'Error'))
+        } else {
             return res
         }
     },

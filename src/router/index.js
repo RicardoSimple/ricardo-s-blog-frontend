@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import { getToken } from '../utils/userInfo'
 
 Vue.use(VueRouter)
 
@@ -45,19 +46,19 @@ const routes = [
         path: '/main',
         name: 'main',
         component: () => import('../views/user/Main.vue'),
-        meta: { title: '个人中心' }
+        meta: { title: '个人中心', isAuth: true }
     },
     {
         path: '/articles',
         name: 'articles',
         component: () => import('../views/user/MyArticle.vue'),
-        meta: { title: '文章管理' }
+        meta: { title: '文章管理', isAuth: true }
     },
     {
         path: '/setting',
         name: 'setting',
         component: () => import('../views/user/Setting.vue'),
-        meta: { title: '更改资料' }
+        meta: { title: '更改资料', isAuth: true }
     },
     {
         path: '/friend',
@@ -69,7 +70,7 @@ const routes = [
         path: '/addArticle',
         name: 'addArticle',
         component: () => import('../views/AddArticle.vue'),
-        meta: { title: '新文章' }
+        meta: { title: '新文章', isAuth: true }
     },
     {
         path: '/article/:id',
@@ -85,7 +86,17 @@ const router = new VueRouter({
     routes
 })
 router.beforeEach((to, from, next) => {
-    let title = 'Gblog'
+    let title = "Ricardo's blog"
+    if (to.meta.isAuth || from.meta.isAuth) { // 判断是否需要进行导航守卫
+        const token = getToken()
+        if (token != "") {
+            next()
+        } else {
+            next('/login')
+        }
+    } else {
+        next()
+    }
     if (to.meta.params) {
         title = `${to.meta.title}:${to.params[to.meta.params] || ''} - ${title}`
     } else {

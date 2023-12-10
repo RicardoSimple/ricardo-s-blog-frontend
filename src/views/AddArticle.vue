@@ -4,7 +4,7 @@
       :getHtml="getHtml"
       :getTitle="getTitle"
     ></ArticleEditor>
-    <ArticleMenu :getSelectedTags="getSelectedTags"></ArticleMenu>
+    <ArticleMenu :getSelectedTags="getSelectedTags" :getBanner="getBanner"></ArticleMenu>
     <el-card
       class="sticky-footer"
       :style="{height: minied? '30px':'90px'}"
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { Message } from 'element-ui';
 import { addArticle } from '../api/articleApi/articleApi';
 import ArticleEditor from '../components/article/article-editor.vue';
 import ArticleMenu from '../components/article/article-menu.vue';
@@ -75,7 +76,8 @@ export default {
         content: "",
         viewCount: 0,
         tags: [],
-        isPublished: false
+        isPublished: false,
+        banner: ""
       },
     }
   },
@@ -88,17 +90,30 @@ export default {
       this.articleReq.title = title
     },
     getSelectedTags (tags) {
-      console.log(tags)
       this.articleReq.tags = tags
+    },
+    getBanner (banner) {
+      console.log(banner)
+      this.articleReq.banner = banner;
     },
     saveArticalSubmit () {
       console.log(this.articleReq)
-      addArticle(this.articleReq)
+      addArticle(this.articleReq).then(res => {
+        if (res.data.code == 200) {
+          Message.success("保存成功")
+          // todo 跳转到该文章页面
+        }
+      })
     },
     publishArticleSubmit () {
       this.articleReq.isPublished = true
       console.log(this.articleReq)
-      addArticle(this.articleReq)
+      addArticle(this.articleReq).then(res => {
+        if (res.data.code == 200) {
+          Message.success("发布成功")
+          // todo 跳转到该文章页面
+        }
+      })
     }
   }
 }

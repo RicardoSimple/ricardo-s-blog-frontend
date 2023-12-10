@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <banner isHome="true"></banner>
+    <!-- <banner isHome="true"></banner> -->
     <div class="site-content animate">
       <!--通知栏-->
       <div class="notify">
@@ -34,7 +34,7 @@
         </div>
       </div>
       <!--文章列表-->
-      <main
+      <div
         class="site-main"
         :class="{'search':hideSlogan}"
       >
@@ -45,7 +45,7 @@
             :key="item.id"
           ></post>
         </template>
-      </main>
+      </div>
 
       <!--加载更多-->
       <div
@@ -69,6 +69,7 @@ import Post from '@/components/post'
 import SmallIco from '@/components/small-ico'
 import Quote from '@/components/quote'
 import { fetchFocus, fetchList } from '../api'
+import { getHotArticle } from '../api/articleApi/articleApi'
 
 export default {
   name: 'Home',
@@ -111,15 +112,6 @@ export default {
         console.log(err)
       })
     },
-    fetchList () {
-      fetchList().then(res => {
-        this.postList = res.data.items || []
-        this.currPage = res.data.page
-        this.hasNextPage = res.data.hasNextPage
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     loadMore () {
       fetchList({ page: this.currPage + 1 }).then(res => {
         this.postList = this.postList.concat(res.data.items || [])
@@ -128,9 +120,12 @@ export default {
       })
     }
   },
-  mounted () {
-    this.fetchFocus();
-    this.fetchList();
+  created () {
+    getHotArticle().then(res => {
+      console.log(res)
+      this.features = res.data
+      this.postList = res.data
+    })
   }
 }
 </script>

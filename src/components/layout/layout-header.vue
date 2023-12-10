@@ -96,9 +96,7 @@ export default {
   },
   async created () {
     await check()
-    console.log("判断用户信息是否存在,控制展示用户信息还是展示头像")
     this.userInfo = getUserInfo()
-    console.log(this.userInfo)
   },
   beforeDestroy () {
     window.removeEventListener("scroll", this.watchScroll)

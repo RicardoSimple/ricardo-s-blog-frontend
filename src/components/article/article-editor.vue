@@ -52,7 +52,6 @@
 
 <script>
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-import { DomEditor } from '@wangeditor/editor'
 import { getToken } from '../../utils/userInfo';
 import { Message } from 'element-ui'
 /** markdown */
@@ -92,7 +91,7 @@ export default {
       },
     };
   },
-  props: ['getHtml', 'getTitle'],
+  props: ['getHtml', 'getTitle', 'currentHtml', 'currentTitle'],
   watch: {
     title (val) {
       this.titleLength = val.length
@@ -102,6 +101,14 @@ export default {
         return false
       }
     },
+  },
+  created () {
+    if (this.currentHtml != undefined) {
+      this.html = this.currentHtml
+    }
+    if (this.currentTitle != undefined) {
+      this.title = this.currentTitle
+    }
   },
   methods: {
     onCreated (editor) {

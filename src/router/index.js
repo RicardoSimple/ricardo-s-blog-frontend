@@ -61,6 +61,13 @@ const routes = [
         meta: { title: '更改资料', isAuth: true }
     },
     {
+        path: '/edit/:articleId',
+        name: 'editArticle',
+        component: () => import('../views/EditArticle.vue'),
+        props: true,
+        meta: { title: '编辑文章', isAuth: true, params: 'articleId' }
+    },
+    {
         path: '/friend',
         name: 'friend',
         component: () => import('../views/Friend.vue'),
@@ -87,7 +94,7 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
     let title = "Ricardo's blog"
-    if (to.meta.isAuth || from.meta.isAuth) { // 判断是否需要进行导航守卫
+    if (to.meta.isAuth) { // 判断是否需要进行导航守卫
         const token = getToken()
         if (token != "") {
             next()

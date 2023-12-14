@@ -115,11 +115,17 @@ export default {
       }
     }
   },
-  props: ['getSelectedTags', 'getBanner'],
+  props: ['getSelectedTags', 'getBanner', 'currentTags', 'currentBanner'],
   created () {
     getTagList().then(res => {
       this.allTags = res.data
     })
+    if (this.currentTags != undefined) {
+      this.selectedTags = this.currentTags
+    }
+    if (this.currentBanner != undefined) {
+      this.banner = this.currentBanner
+    }
   },
   methods: {
     getTag (tag) {

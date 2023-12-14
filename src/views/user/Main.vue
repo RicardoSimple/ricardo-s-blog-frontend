@@ -1,6 +1,13 @@
 <template>
   <div class="home">
     <banner
+      v-if="userInfo.background!=undefined&&userInfo.background!=''"
+      isHome="false"
+      :userInfo="userInfo"
+      :src="userInfo.background"
+    ></banner>
+    <banner
+      v-else
       isHome="false"
       :userInfo="userInfo"
     ></banner>

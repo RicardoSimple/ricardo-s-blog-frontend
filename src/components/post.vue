@@ -6,10 +6,13 @@
           <el-image
             class="img"
             :src="post.banner"
+            fit="cover"
           >
             <div
               slot="error"
               class="slot-error"
+              style="line-height: 110px;text-align: center;"
+              :style="`color:${color()}`"
             >
               {{ post.title }}
             </div>
@@ -33,6 +36,31 @@
       <p class="summary">{{post.summary}}</p>
       <footer class="entry-footer">
         <div class="post-more">
+          <span v-if="userInfo!=null&&userInfo.id==post.userId">
+            <router-link :to="`/edit/${post.id}`"><i
+                class="el-icon-edit"
+                style="font-size: 25px;"
+              ></i></router-link>
+          </span>
+          <span v-if="userInfo!=null&&userInfo.id==post.userId">
+            <el-popconfirm
+              confirm-button-text='确认'
+              @confirm="deleteEvent"
+              cancel-button-text='取消'
+              icon="el-icon-info"
+              icon-color="red"
+              title="确认删除文章？"
+            >
+              <el-button
+                type="text"
+                slot="reference"
+                style="font-size: 25px; margin-right: 5px;"
+                icon="el-icon-delete"
+                circle
+              ></el-button>
+            </el-popconfirm>
+
+          </span>
           <router-link :to="`/article/${post.id}`"><i
               class="iconfont iconfish-li"
               style="font-size: 25px;"
@@ -57,12 +85,17 @@
 </template>
 
 <script>
-import { formatTime } from '../utils/index'
+import { formatTime, getRandomColor } from '../utils/index'
+import { getUserInfo } from '../utils/userInfo'
+import { deleteArticle } from '../api/articleApi/articleApi'
+import { Message } from 'element-ui'
 
 export default {
   data () {
     return {
-      format: formatTime
+      format: formatTime,
+      userInfo: null,
+      color: getRandomColor
     }
   },
   name: "post",
@@ -71,7 +104,16 @@ export default {
       type: Object
     }
   },
+  created () {
+    this.userInfo = getUserInfo()
+  },
   methods: {
+    deleteEvent () {
+      deleteArticle(this.post.id).then(res => {
+        window.location.reload();
+        Message.info(res.data)
+      })
+    }
   }
 }
 </script>
@@ -81,7 +123,7 @@ export default {
   margin: 0 0 4% 0;
   position: relative;
 }
-.slot-error{
+.slot-error {
   line-height: 100px;
 }
 .post-entry {
@@ -90,10 +132,10 @@ export default {
     margin-top: 10px;
 
     .img {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       object-fit: cover;
-      border-radius: 50%;
+      border-radius: 13%;
       padding: 2px;
       border: 1px solid #dadada;
       position: relative;

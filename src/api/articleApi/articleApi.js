@@ -42,3 +42,21 @@ export async function getArticleUnderUser (userId) {
 export async function getHotArticle () {
   return await get('/article/hot')
 }
+
+/**
+ * 删除文章
+ * @param {number} articleId 
+ * @returns 
+ */
+export async function deleteArticle (articleId) {
+  return await get('/article/delete?articleId=' + articleId)
+}
+
+/**
+ * 新增文章
+ * @param {id:number,userId:number,title:string,content:string,viewCount:integer,tags:List{id:number,name:string},isPublished:bool} article 
+ * @returns 
+ */
+export async function updateArticle (article) {
+  return await post('/article/update', article)
+}

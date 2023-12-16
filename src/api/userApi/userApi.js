@@ -25,3 +25,7 @@ export async function refreshToken () {
 export async function check () {
   return await get('/user/check')
 }
+
+export async function currentUser () {
+  return await get('/user/currentUser')
+}
